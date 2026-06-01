@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><title>Jarvis 3D Space</title>
+    <style>body { margin: 0; overflow: hidden; background: #000; }</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script></head>
+    <body><script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 2500;
+    const posArray = new Float32Array(particleCount * 3);
+    for(let i=0; i<particleCount*3; i++) { posArray[i] = (Math.random() - 0.5) * 10; }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    
+    const material = new THREE.PointsMaterial({ size: 0.02, color: 0x00ffcc });
+    const mesh = new THREE.Points(particleGeo, material); scene.add(mesh);
+    camera.position.z = 3;
+    
+    function animate() { requestAnimationFrame(animate); mesh.rotation.y += 0.002; mesh.rotation.x += 0.001; renderer.render(scene, camera); }
+    animate();
+    window.addEventListener('resize', () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); });
+    </script></body></html>
