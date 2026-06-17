@@ -1,3 +1,23 @@
+<button onclick="document.getElementById('askBox').style.display='block'" 
+        style="position:fixed; bottom:20px; right:20px; padding:15px; background:gold; border:none; border-radius:10px; cursor:pointer; font-weight:bold;">
+    Ask AI / Inquiry
+</button>
+
+<div id="askBox" style="display:none; position:fixed; bottom:80px; right:20px; width:250px; background:white; padding:15px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+    <input type="text" id="userQuery" placeholder="Company ke baare mein pucho..." style="width:100%; margin-bottom:10px;">
+    <button onclick="submitQuery()">Send</button>
+</div>
+
+<script>
+    function submitQuery() {
+        const query = document.getElementById('userQuery').value;
+        // Yeh data tumhare Supabase 'orders' table mein jayega
+        supabase.from('orders').insert([{ query: query }]).then(() => {
+            alert("Message received! Hum jaldi contact karenge.");
+            document.getElementById('askBox').style.display='none';
+        });
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const supabase = supabase.createClient('https://qfzevrnhccpqjzudzzxy.supabase.com', 'sb_secret_iXwgjknxOo93HPtSA8SImg_KwbP0a8N');
